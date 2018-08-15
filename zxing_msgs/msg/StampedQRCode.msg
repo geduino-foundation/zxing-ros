@@ -1,4 +1,4 @@
-# QRCodeArray.msg
+# StampedQRCode.msg
 #
 # Copyright (C) 2016 Alessandro Francescon
 #
@@ -17,5 +17,5 @@
 # The header
 Header header
 
-# The QR Codes
-zxing_cv/QRCode[] qr_codes
+# The QR Code
+zxing_msgs/QRCode qr_code

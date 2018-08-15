@@ -18,39 +18,19 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(zxing_cv)
 
-add_message_files(
-        FILES
-        QRCode.msg
-        QRCodeArray.msg
-        StampedQRCode.msg
-)
-
 find_package(catkin REQUIRED COMPONENTS
 	roscpp
         tf
-        message_generation
 	cv_bridge
 	image_transport
-	std_msgs
 	sensor_msgs
         geometry_msgs
         dynamic_reconfigure
 	zxing	
+	zxing_msgs
 )
 
 generate_dynamic_reconfigure_options(cfg/QRDetector.cfg)
-
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs
-)
-
-catkin_package(
-        CATKIN_DEPENDS message_runtime
-)
-
-message(${catkin_INCLUDE_DIRS})
 
 include_directories(
 	${catkin_INCLUDE_DIRS}
@@ -59,13 +39,15 @@ include_directories(
 
 add_library(qr_detector_nodelet src/qr_detector_nodelet.cpp src/qr_detector.cpp)
 
-add_dependencies(qr_detector_nodelet qr_detector_gencfg)
+add_dependencies(qr_detector_nodelet qr_detector_gencfg ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(qr_detector_nodelet
         ${catkin_LIBRARIES}
 )
 
 add_executable(qr_detector_node src/qr_detector_node.cpp src/qr_detector.cpp)
+
+add_dependencies(qr_detector_node qr_detector_gencfg ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(qr_detector_node
         ${catkin_LIBRARIES}

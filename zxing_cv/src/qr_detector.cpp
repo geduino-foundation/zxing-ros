@@ -55,7 +55,7 @@ int QRDetector::init() {
     debugImagePublisher = imageTransport.advertise("image_debug", 1);
 
     // Create qr codes publisher
-    qrCodeArrayPublisher = nodeHandle.advertise<zxing_cv::QRCodeArray>("qr_codes", 5);
+    qrCodeArrayPublisher = nodeHandle.advertise<zxing_msgs::QRCodeArray>("qr_codes", 5);
 
     // Set barcode reader
     qrReader.reset(new zxing::qrcode::QRCodeReader);
@@ -122,7 +122,7 @@ void QRDetector::imageCallback(const sensor_msgs::ImageConstPtr & imageConstPtr,
         zxing::Ref<zxing::Result> result(qrReader->decode(bitmap, zxing::DecodeHints(zxing::DecodeHints::TRYHARDER_HINT)));
 
         // Create qr codes message
-        zxing_cv::QRCodeArray qrCodeArrayMessage;
+        zxing_msgs::QRCodeArray qrCodeArrayMessage;
         qrCodeArrayMessage.header = cvImagePtr->header;
         qrCodeArrayMessage.qr_codes.resize(1);
         qrCodeArrayMessage.qr_codes[0].content = result->getText()->getText();

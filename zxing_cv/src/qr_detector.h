@@ -23,7 +23,7 @@
 #include <dynamic_reconfigure/server.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/Image.h>
-#include <zxing_cv/QRCodeArray.h>
+#include <zxing_msgs/QRCodeArray.h>
 #include <opencv2/core/core.hpp>
 #include <zxing/Result.h>
 #include <zxing/Reader.h>
