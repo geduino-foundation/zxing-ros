@@ -19,7 +19,6 @@
 #include <pluginlib/class_list_macros.h>
 #include <nodelet/nodelet.h>
 #include <ros/ros.h>
-#include <boost/thread.hpp>
 
 #include "qr_detector.h"
 
@@ -29,21 +28,7 @@ class QRDetectorNodelet : public nodelet::Nodelet {
 
 public:
 
-    QRDetectorNodelet() : running(false) {};
-
-    ~QRDetectorNodelet() {
-
-        if (running) {
-
-            // Set running to false
-            running = false;
-
-            // Join thread
-            thread->join();
-
-        }
-
-    }
+    QRDetectorNodelet();
 
 private:
 
@@ -58,30 +43,9 @@ private:
         // Init qr detector
         qrDetector->init();
 
-        // Set running to true
-        running = true;
-
-        // Create nodelet thread
-        thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(& QRDetectorNodelet::main, this)));
-
     }
-
-    void main() {
-
-        while (running) {
-
-            // Process
-            //qrDetector->process();
-
-        }
-
-    }
-
-    bool running;
 
     boost::shared_ptr<QRDetector> qrDetector;
-
-    boost::shared_ptr<boost::thread> thread;
 
 };
 
